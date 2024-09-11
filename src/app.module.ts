@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataModule } from './data/data.module';
 import { Data } from './data/entities/data.entity';
+import { SeederService } from './seeder/seeder.service';
 
 @Module({
   imports: [
@@ -24,8 +25,15 @@ import { Data } from './data/entities/data.entity';
       inject: [ConfigService],
     }),
     DataModule,
+    TypeOrmModule.forFeature([Data]),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeederService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private readonly seederService: SeederService) {}
+
+  async onModuleInit() {
+    await this.seederService.seedData();
+  }
+}
