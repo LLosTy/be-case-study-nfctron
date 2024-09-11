@@ -31,8 +31,8 @@ export class DataController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDatumDto: UpdateDataDto) {
-    return this.dataService.update(+id, updateDatumDto);
+  update(@Param('id') id: string, @Body() updateDataDto: UpdateDataDto) {
+    return this.dataService.update(+id, updateDataDto);
   }
 
   @Delete(':id')
