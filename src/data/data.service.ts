@@ -37,6 +37,7 @@ export class DataService {
     data.lastName = updateDataDto.lastName;
     data.email = updateDataDto.email;
     data.password = updateDataDto.password;
+    data.id = id;
     return this.dataRepository.save(data);
   }
 
