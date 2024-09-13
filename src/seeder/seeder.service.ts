@@ -5,7 +5,6 @@ import { Data } from '../data/entities/data.entity';
 import { faker } from '@faker-js/faker';
 import { ConfigService } from '@nestjs/config';
 
-
 @Injectable()
 export class SeederService {
   constructor(
