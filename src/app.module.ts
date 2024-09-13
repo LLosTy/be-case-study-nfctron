@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataModule } from './data/data.module';
@@ -25,10 +24,9 @@ import { SeederService } from './seeder/seeder.service';
       inject: [ConfigService],
     }),
     DataModule,
-    TypeOrmModule.forFeature([Data]),
   ],
   controllers: [AppController],
-  providers: [AppService, SeederService],
+  providers: [SeederService],
 })
 export class AppModule {
   constructor(private readonly seederService: SeederService) {}
