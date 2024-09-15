@@ -5,17 +5,19 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
+  Delete, UsePipes,
 } from '@nestjs/common';
 import { DataService } from './data/data.service';
 import { CreateDataDto } from './data/dto/create-data.dto';
 import { UpdateDataDto } from './data/dto/update-data.dto';
+import { UniqueEmailValidationPipe } from './unique-email-validator/unique-email-validator.pipe';
 
 @Controller('data')
 export class AppController {
   constructor(private readonly dataService: DataService) {}
 
   @Post()
+  @UsePipes(UniqueEmailValidationPipe)
   create(@Body() createDataDto: CreateDataDto) {
     return this.dataService.create(createDataDto);
   }
@@ -31,6 +33,7 @@ export class AppController {
   }
 
   @Patch(':id')
+  @UsePipes(UniqueEmailValidationPipe)
   update(@Param('id') id: string, @Body() updateDataDto: UpdateDataDto) {
     return this.dataService.update(+id, updateDataDto);
   }
