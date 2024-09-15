@@ -7,9 +7,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('NFCTron Case study')
-    .setDescription('API Description')
+    .setDescription(
+      'This application is a simple web server designed to simulate a customer records management system.',
+    )
     .setVersion('1.0')
-    .addTag('nfctron')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
