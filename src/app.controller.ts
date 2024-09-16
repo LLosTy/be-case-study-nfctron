@@ -5,7 +5,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UsePipes,
 } from '@nestjs/common';
 import {
@@ -67,17 +66,5 @@ export class AppController {
   @ApiResponse({ status: 404, description: 'Data not found.' })
   update(@Param('id') id: string, @Body() updateDataDto: UpdateDataDto) {
     return this.dataService.update(+id, updateDataDto);
-  }
-
-  @Delete(':id')
-  @ApiOperation({ summary: 'Delete data' })
-  @ApiParam({ name: 'id', type: 'string' })
-  @ApiResponse({
-    status: 200,
-    description: 'The data has been successfully deleted.',
-  })
-  @ApiResponse({ status: 404, description: 'Data not found.' })
-  remove(@Param('id') id: string) {
-    return this.dataService.remove(+id);
   }
 }
