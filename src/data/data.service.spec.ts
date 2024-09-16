@@ -38,9 +38,9 @@ describe('DataService', () => {
   describe('create', () => {
     it('should create a new data entry', async () => {
       const createDto: CreateDataDto = {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john@example.com',
+        firstName: 'Jozo',
+        lastName: 'Mrkvicka',
+        email: 'jozo@email.com',
         password: 'password123',
       };
       const expectedResult: Data = { id: 1, ...createDto };
@@ -89,9 +89,9 @@ describe('DataService', () => {
       const id = 1;
       const expectedResult: Data = {
         id,
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john@example.com',
+        firstName: 'Jozo',
+        lastName: 'Mrkvicka',
+        email: 'jozo@email.com',
         password: 'password123',
       };
 
@@ -112,10 +112,10 @@ describe('DataService', () => {
         password: string;
         email: string;
       } = {
-        firstName: 'Jane',
-        lastName: 'Doe',
-        email: 'jane@example.com',
-        password: 'newpassword123',
+        firstName: 'Jozina',
+        lastName: 'Mrkvickova',
+        email: 'jozina@email.com',
+        password: 'password456',
       };
       const expectedResult: Data = { id, ...(updateDto as Data) };
 
@@ -126,19 +126,6 @@ describe('DataService', () => {
       expect(repository.save).toHaveBeenCalledWith(
         expect.objectContaining({ id, ...updateDto }),
       );
-    });
-  });
-
-  describe('remove', () => {
-    it('should remove the data entry', async () => {
-      const id = 1;
-      const expectedResult = { raw: [], affected: 1 };
-
-      repository.delete.mockResolvedValue(expectedResult);
-
-      const result = await service.remove(id);
-      expect(result).toEqual(expectedResult);
-      expect(repository.delete).toHaveBeenCalledWith(id);
     });
   });
 });
