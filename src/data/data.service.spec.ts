@@ -119,10 +119,20 @@ describe('DataService', () => {
       };
       const expectedResult: Data = { id, ...(updateDto as Data) };
 
+      const existingData: Data = {
+        id,
+        firstName: 'OldFirstName',
+        lastName: 'OldLastName',
+        email: 'old@email.com',
+        password: 'oldpassword123',
+      };
+      repository.findOneBy.mockResolvedValue(existingData);
+
       repository.save.mockResolvedValue(expectedResult);
 
       const result = await service.update(id, updateDto);
       expect(result).toEqual(expectedResult);
+      expect(repository.findOneBy).toHaveBeenCalledWith({ id });
       expect(repository.save).toHaveBeenCalledWith(
         expect.objectContaining({ id, ...updateDto }),
       );
