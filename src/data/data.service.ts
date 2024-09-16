@@ -1,4 +1,4 @@
-import { Injectable, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Injectable, NotFoundException, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateDataDto } from './dto/create-data.dto';
 import { UpdateDataDto } from './dto/update-data.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,18 +27,26 @@ export class DataService {
     });
   }
 
-  findOne(id: number): Promise<Data> {
-    return this.dataRepository.findOneBy({ id });
+  async findOne(id: number): Promise<Data> {
+    const data = await this.dataRepository.findOneBy({ id });
+    if (!data) {
+      throw new NotFoundException('Data not found.');
+    }
+    return data;
   }
 
-  update(id: number, updateDataDto: UpdateDataDto): Promise<Data> {
+  async update(id: number, updateDataDto: UpdateDataDto): Promise<Data> {
+    const exists = await this.dataRepository.findOneBy({ id });
+    if (!exists) {
+      throw new NotFoundException('Data not found');
+    }
     const data: Data = new Data();
     data.firstName = updateDataDto.firstName;
     data.lastName = updateDataDto.lastName;
     data.email = updateDataDto.email;
     data.password = updateDataDto.password;
     data.id = id;
-    return this.dataRepository.save(data);
+    return await this.dataRepository.save(data);
   }
 
   remove(id: number) {
