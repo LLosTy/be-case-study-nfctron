@@ -14,6 +14,9 @@ export class UniqueEmailValidationPipe implements PipeTransform {
 
   async transform(value: CreateDataDto | UpdateDataDto) {
     const email = value.email;
+    if (!email) {
+      return value;
+    }
 
     const existingData = await this.dataRepository.findOne({
       where: { email },
