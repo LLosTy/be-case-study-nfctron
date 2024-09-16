@@ -18,6 +18,7 @@ import { DataService } from './data/data.service';
 import { CreateDataDto } from './data/dto/create-data.dto';
 import { UpdateDataDto } from './data/dto/update-data.dto';
 import { UniqueEmailValidationPipe } from './unique-email-validator/unique-email-validator.pipe';
+import { ParseIntPipe } from '@nestjs/common';
 
 @ApiTags('data')
 @Controller('data')
@@ -46,15 +47,14 @@ export class AppController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get details for data by id' })
-  @ApiParam({ name: 'id', type: 'string' })
+  @ApiParam({ name: 'id', type: 'integer' })
   @ApiResponse({ status: 200, description: 'Return the data.' })
   @ApiResponse({ status: 404, description: 'Data not found.' })
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: string) {
     return this.dataService.findOne(+id);
   }
 
   @Patch(':id')
-  @UsePipes(UniqueEmailValidationPipe)
   @ApiOperation({ summary: 'Update data' })
   @ApiParam({ name: 'id', type: 'string' })
   @ApiBody({ type: UpdateDataDto })
@@ -64,7 +64,10 @@ export class AppController {
   })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiResponse({ status: 404, description: 'Data not found.' })
-  update(@Param('id') id: string, @Body() updateDataDto: UpdateDataDto) {
+  update(
+    @Param('id', ParseIntPipe, UniqueEmailValidationPipe) id: string,
+    @Body() updateDataDto: UpdateDataDto,
+  ) {
     return this.dataService.update(+id, updateDataDto);
   }
 }
